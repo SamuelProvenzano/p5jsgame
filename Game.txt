@@ -1,0 +1,75 @@
+var playerPos;
+var cookiePos;
+var score;
+
+var remainingTime = 30; //How long your game lasts
+var speed = 7; //The speed that your player moves
+
+function setup() {
+  frameRate(30);
+  createCanvas(500, 500);
+  
+  //Assign Variables
+  playerPos = createVector(100, 250);
+  cookiePos = createVector(400, 250);
+  score = 0;
+  
+}
+
+function draw() {
+  background(color('lightgrey'));
+  
+  //Create Player
+  fill(color('black'));
+  ellipse(playerPos.x, playerPos.y, 30, 30);
+  
+  //Move the player in the direction of key press
+  if (keyIsDown(LEFT_ARROW)) {
+    playerPos.x -= 7;
+  }
+  if (keyIsDown(RIGHT_ARROW)) {
+    playerPos.x += 7;
+  }
+  if (keyIsDown(UP_ARROW)) {
+    playerPos.y -= 7;
+  }
+  if (keyIsDown(DOWN_ARROW)) {
+    playerPos.y += 7;
+  }
+  
+  //Stop the player from going off screen
+  playerPos.x = constrain(playerPos.x, 0, 500);
+  playerPos.y = constrain(playerPos.y, 0, 500);
+  
+  //Create Cookie
+  fill(color('red'));
+  ellipse(cookiePos.x, cookiePos.y, 20, 20);
+  
+  
+  //Create variables that measure the distance from the player to the cookie
+  var coordToCookie = createVector(playerPos.x - cookiePos.x, playerPos.y - cookiePos.y);
+  var distToCookie = sqrt(sq(coordToCookie.x) + sq(coordToCookie.y));
+  
+  //Check if distance is small enough so player is colliding with cookie
+  if (distToCookie < 22) {
+    score += 1;
+    cookiePos.x = random(0, 500);
+    cookiePos.y = random(0, 500);
+  }
+  
+  //Count down time variable
+  remainingTime -= 1/30;
+  
+  //If time hits 0, freeze the game
+  if (remainingTime <= 0){
+    frameRate(0);
+  }
+  
+  //Set the texts
+  fill(color('black'));
+  textSize(20);
+  text("Time: " + round(remainingTime), 5, 20);
+  text("Score: " + score, 420, 20);
+  
+}
+
