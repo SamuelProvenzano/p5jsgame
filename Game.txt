@@ -1,9 +1,8 @@
 var playerPos;
 var cookiePos;
 var score;
-
-var remainingTime = 30; //How long your game lasts
-var speed = 7; //The speed that your player moves
+var remainingTime;
+var speed;
 
 function setup() {
   frameRate(30);
@@ -14,10 +13,17 @@ function setup() {
   cookiePos = createVector(400, 250);
   score = 0;
   
+  remainingTime = 30; //How long your game lasts
+  speed = 7; //The speed that your player moves
+  
 }
 
 function draw() {
   background(color('lightgrey'));
+  
+  //Add white outline to everything 
+  strokeWeight(3);
+  stroke(color('white'));
   
   //Create Player
   fill(color('black'));
@@ -25,16 +31,16 @@ function draw() {
   
   //Move the player in the direction of key press
   if (keyIsDown(LEFT_ARROW)) {
-    playerPos.x -= 7;
+    playerPos.x -= speed;
   }
   if (keyIsDown(RIGHT_ARROW)) {
-    playerPos.x += 7;
+    playerPos.x += speed;
   }
   if (keyIsDown(UP_ARROW)) {
-    playerPos.y -= 7;
+    playerPos.y -= speed;
   }
   if (keyIsDown(DOWN_ARROW)) {
-    playerPos.y += 7;
+    playerPos.y += speed;
   }
   
   //Stop the player from going off screen
@@ -51,7 +57,7 @@ function draw() {
   var distToCookie = sqrt(sq(coordToCookie.x) + sq(coordToCookie.y));
   
   //Check if distance is small enough so player is colliding with cookie
-  if (distToCookie < 22) {
+  if (distToCookie < 25) {
     score += 1;
     cookiePos.x = random(0, 500);
     cookiePos.y = random(0, 500);
@@ -72,4 +78,3 @@ function draw() {
   text("Score: " + score, 420, 20);
   
 }
-
